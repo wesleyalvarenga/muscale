@@ -8,6 +8,8 @@ import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import Schedules from './pages/Schedules';
 import ScheduleDetails from './pages/ScheduleDetails';
+import ScheduleForm from './pages/ScheduleForm';
+import Calendar from './pages/Calendar';
 
 function Layout({ children }: { children: React.ReactNode }) {
   const { user, signOut, isAdmin } = useAuth();
@@ -46,6 +48,9 @@ function Layout({ children }: { children: React.ReactNode }) {
                 <a href="/schedules" className="text-primary-lighter hover:text-primary-light transition-colors">
                   Escalas
                 </a>
+                <a href="/calendar" className="text-primary-lighter hover:text-primary-light transition-colors">
+                  Calendário
+                </a>
                 <a href="/profile" className="text-primary-lighter hover:text-primary-light transition-colors">
                   Perfil
                 </a>
@@ -75,6 +80,13 @@ function Layout({ children }: { children: React.ReactNode }) {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Escalas
+              </a>
+              <a 
+                href="/calendar" 
+                className="block text-primary-lighter hover:text-primary-light transition-colors py-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Calendário
               </a>
               <a 
                 href="/profile" 
@@ -376,8 +388,6 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 }
 
 function App() {
-  const { isAdmin } = useAuth();
-
   return (
     <Router>
       <Routes>
@@ -403,11 +413,41 @@ function App() {
           }
         />
         <Route
+          path="/schedules/new"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <ScheduleForm />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/schedules/edit/:id"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <ScheduleForm />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/schedules/:id"
           element={
             <ProtectedRoute>
               <Layout>
                 <ScheduleDetails />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/calendar"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <Calendar />
               </Layout>
             </ProtectedRoute>
           }
@@ -427,4 +467,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

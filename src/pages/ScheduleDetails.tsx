@@ -63,8 +63,12 @@ export default function ScheduleDetails() {
   const [currentMusicianId, setCurrentMusicianId] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!id) {
+      navigate('/schedules');
+      return;
+    }
     fetchSchedule();
-  }, [id]);
+  }, [id, navigate]);
 
   async function fetchSchedule() {
     try {
